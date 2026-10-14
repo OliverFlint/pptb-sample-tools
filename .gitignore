@@ -82,6 +82,15 @@ out
 .nuxt
 dist
 
+# These plain JavaScript FinOps samples run directly without a build step.
+!FinOps/finance-operations-odata/dist/
+!FinOps/finance-operations-odata/dist/index.html
+!FinOps/finance-operations-odata/dist/sample.js
+!FinOps/finance-operations-odata/dist/headless.js
+!FinOps/dataverse-finance-operations/dist/
+!FinOps/dataverse-finance-operations/dist/index.html
+!FinOps/dataverse-finance-operations/dist/sample.js
+
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
