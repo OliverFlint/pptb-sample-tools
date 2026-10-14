@@ -1,7 +1,7 @@
 # Finance & Operations samples
 
-These read-only tools run directly from their included `dist` files. No build
-or dependency installation is needed. Use Power Platform ToolBox 1.3.0 or the
+These read-only tools use the same strict TypeScript workflow as the HTML sample
+in `new`: edit `src`, compile with `tsc`, and copy HTML with `shx`. Use Power Platform ToolBox 1.3.0 or the
 local `finops-connection` development build while that release is being prepared.
 
 - [F&O OData Sample](finance-operations-odata/README.md): one F&O connection,
@@ -11,3 +11,8 @@ local `finops-connection` development build while that release is being prepared
 
 Open **Debug → Local Development → Browse**, select the individual tool folder,
 and click **Load Tool**. Save the required connections in ToolBox first.
+
+Install dependencies and run `npm run build` inside each tool folder before loading
+it. The build emits browser ES modules into `dist`; the OData tool also compiles
+its headless TypeScript entry as CommonJS. See each README for local unpublished
+types setup. Reload the tool after rebuilding.

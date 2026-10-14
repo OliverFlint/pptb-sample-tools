@@ -5,5 +5,32 @@
   "displayName": "F&O OData Sample",
   "author": "Power Platform ToolBox",
   "license": "GPL-3.0",
-  "features": { "connections": 1, "connectionTypes": ["financeOperations"] }
+  "devDependencies": {
+    "@pptb/types": "1.3.0",
+    "shx": "^0.4.0",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "tsc && tsc -p tsconfig.headless.json && npm run copy-html",
+    "copy-html": "shx cp src/index.html dist/",
+    "test": "npm run build && node --test tests/sample.test.mjs",
+    "finalize-package": "npm shrinkwrap",
+    "validate": "pptb-validate",
+    "test:built": "node --test tests/sample.test.mjs"
+  },
+  "features": {
+    "connections": 1,
+    "connectionTypes": [
+      "financeOperations"
+    ]
+  },
+  "main": "index.html",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "npm-shrinkwrap.json",
+    "pptb.config.json"
+  ]
 }

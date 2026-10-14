@@ -7,7 +7,8 @@ This directory contains complete, production-ready sample tools demonstrating ho
 ### Finance & Operations (`FinOps/`)
 
 Read-only F&O OData and mixed Dataverse + F&O examples, including typed connection
-slots and a headless OData entry. These run without a build step.
+slots and a headless OData entry. Full source and dependency-free build scripts
+are included, alongside ready-to-load output.
 
 [→ View FinOps Samples](./FinOps/README.md)
 

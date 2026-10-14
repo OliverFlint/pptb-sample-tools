@@ -1,12 +1,14 @@
-const api = window.financeOperationsAPI;
-const output = document.getElementById("result");
-const status = document.getElementById("status");
-const query = document.getElementById("query");
-const pageSize = document.getElementById("page-size");
-const nextButton = document.getElementById("next");
-let nextLink;
+import { element, describeError } from "./ui.js";
 
-async function run(operation) {
+const api = window.financeOperationsAPI;
+const output = element("result");
+const status = element("status");
+const query = element<HTMLInputElement>("query");
+const pageSize = element<HTMLInputElement>("page-size");
+const nextButton = element<HTMLButtonElement>("next");
+let nextLink: string | undefined;
+
+async function run(operation: () => Promise<string | FinanceOperationsAPI.Page | FinanceOperationsAPI.ServiceDocument>) {
     const buttons = [...document.querySelectorAll("button")];
     buttons.forEach((button) => button.disabled = true);
     status.textContent = "Loading…";
@@ -14,19 +16,19 @@ async function run(operation) {
     try {
         const result = await operation();
         output.textContent = typeof result === "string" ? result : JSON.stringify(result, null, 2);
-        nextLink = result?.["@odata.nextLink"];
+        nextLink = typeof result === "object" && "@odata.nextLink" in result ? result["@odata.nextLink"] : undefined;
         status.textContent = "Request succeeded";
     } catch (error) {
-        output.textContent = [error.message, error.status && `HTTP ${error.status}`, error.requestId && `Request ID: ${error.requestId}`, error.retryAfter && `Retry after: ${error.retryAfter}`].filter(Boolean).join("\n");
+        output.textContent = describeError(error);
         status.textContent = "Request failed";
     } finally {
         buttons.forEach((button) => button.disabled = false);
         nextButton.disabled = !nextLink;
     }
 }
-document.getElementById("discover").addEventListener("click", () => run(() => api.getServiceDocument()));
-document.getElementById("metadata").addEventListener("click", () => run(() => api.getMetadata()));
-function queryPage(path) {
+element("discover").addEventListener("click", () => run(() => api.getServiceDocument()));
+element("metadata").addEventListener("click", () => run(() => api.getMetadata()));
+function queryPage(path: string) {
     const value = pageSize.value.trim();
     if (!value) return api.queryData(path);
     const size = Number(value);
@@ -35,8 +37,8 @@ function queryPage(path) {
     }
     return api.queryData(path, { headers: { Prefer: `odata.maxpagesize=${size}` } });
 }
-document.getElementById("run").addEventListener("click", () => run(() => queryPage(query.value.trim())));
+element<HTMLButtonElement>("run").addEventListener("click", () => run(() => queryPage(query.value.trim())));
 nextButton.addEventListener("click", () => { const link = nextLink; if (link) { query.value = link; run(() => queryPage(link)); } });
 window.toolboxAPI.connections.getActiveConnection().then((connection) => {
-    document.getElementById("connection").textContent = connection ? `${connection.name} — ${connection.url}` : "No connection selected";
+    element("connection").textContent = connection ? `${connection.name} — ${connection.url}` : "No connection selected";
 });

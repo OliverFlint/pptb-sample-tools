@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "types": [
+      "types"
+    ],
+    "typeRoots": [
+      "../../../pptb-desktop-app/packages"
+    ]
+  },
+  "extends": "./tsconfig.json"
+}

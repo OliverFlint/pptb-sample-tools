@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.local.json",
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "CommonJS"
+  },
+  "include": [
+    "src/headless.ts"
+  ]
+}
